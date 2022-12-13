@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const Auth = require("./middleware/Auth");
 const cookieParser = require('cookie-parser')
 const multer = require("multer");
+var cors = require('cors')
 const PORT = process.env.PORT || 8000;
 
 app.use(express.static('/Client/public'))
@@ -15,6 +16,19 @@ app.use(express.static('/Client/public'))
 
 
 // Middlewares...................................................
+
+app.use(cors());
+const { createProxyMiddleware } = require('http-proxy-middleware');
+app.use('/api', createProxyMiddleware({ 
+    target: 'http://localhost:8080/', //original url
+    changeOrigin: true, 
+    //secure: false,
+    onProxyRes: function (proxyRes, req, res) {
+       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+    }
+}));
+
+
 app.use(express.json());
 app.use(cookieParser());
 const staticPath = path.join(__dirname, "./public");
