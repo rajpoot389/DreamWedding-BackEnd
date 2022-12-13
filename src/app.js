@@ -84,12 +84,19 @@ app.post("/register", upload.single("photo"), async (req, res) => {
                     number: req.body.number,
                     photo: req.file.filename
                 });
-
+                res.set({
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                });
                 res.status(200).json("Registration SucessFull");
                 const result = await userData.save();
                 console.log(result);
             }
         } else {
+            res.set({
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            });
             res.status(422).json("Password are not matching");
 
         }
@@ -102,6 +109,10 @@ app.post("/register", upload.single("photo"), async (req, res) => {
 //For Login............................................................
 
 app.get("/signin", (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.send("LOgin Page!");
 });
 
@@ -125,10 +136,18 @@ app.post("/signin", async (req, res) => {
             })
             // console.log(token);
             console.log(data);
+            res.set({
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            });
             res.json("User Login Successful");
 
         }
     } else {
+        res.set({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        });
         res.status(402).json("Wrong Email!");
     }
 });
@@ -136,6 +155,10 @@ app.post("/signin", async (req, res) => {
 
 // Routr For After Login***************************************************
 app.get("/afterlogin", Auth, async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(201).json(req.rootUser);
     // res.json("h")
 })
@@ -143,6 +166,14 @@ app.get("/afterlogin", Auth, async (req, res) => {
 
 // Route For User*******************************************************
 app.get("/user", Auth, async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(201).json(req.rootUser);
 })
 
@@ -157,7 +188,10 @@ app.post("/showuser", Auth, async (req, res) => {
     // const data= await UserCollection.find();
     // // const data=await UserCollection.find({$and:[{gender:gender},{religion:religion},{age:{$gte:age_from}},{age:{$lte:age_to}}]});
     const data = await UserCollection.find({ gender: gender, religion: religion, $and: [{ age: { $gte: age_from } }, { age: { $lte: age_to } }] });
-
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(200).json(data)
     console.log(data);
     // res.status(200).json("Suceess")
@@ -170,6 +204,10 @@ app.post("/showuser", Auth, async (req, res) => {
 app.post("/perticular_user_details", async (req, res) => {
     const id = req.body.id;
     const data = await UserCollection.findById(id)
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(200).json(data)
 })
 
@@ -177,6 +215,10 @@ app.post("/perticular_user_details", async (req, res) => {
 app.get("/logout", (req, res) => {
     console.log("hello logout paeg");
     res.clearCookie('jwt', { path: '/' });
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(200).json("User Logout");
 })
 
@@ -184,6 +226,10 @@ app.get("/logout", (req, res) => {
 // For Banner From Route***********************************
 app.get("/checkAuth", Auth, async (req, res) => {
     console.log("CkeckAuth called");
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(200).json("You Are Authorized");
 
 })

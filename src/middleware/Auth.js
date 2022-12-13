@@ -19,6 +19,10 @@ const Auth = async (req, res, next) => {
 
     } catch (e) {
         console.log(e);
+        res.set({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        });
         res.status(401).json("UnAuthorized User");
     }
 }
