@@ -20,7 +20,7 @@ app.use(express.static('/Client/public'))
 app.use(cors());
 const { createProxyMiddleware } = require('http-proxy-middleware');
 app.use('/api', createProxyMiddleware({ 
-    target: 'http://localhost:8080/', //original url
+    target: `${PORT}`, //original url
     changeOrigin: true, 
     //secure: false,
     onProxyRes: function (proxyRes, req, res) {
